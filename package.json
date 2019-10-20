@@ -14,7 +14,8 @@
   "homepage": ".",
   "dependencies": {
     "react": "^16.10.2",
-    "react-dom": "^16.10.2"
+    "react-dom": "^16.10.2",
+    "styled-components": "^4.4.0"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",
@@ -32,6 +33,7 @@
     "@types/react-dom": "^16.9.2",
     "@types/storybook__addon-actions": "^3.4.1",
     "@types/storybook__react": "^4.0.0",
+    "@types/styled-components": "^4.1.19",
     "babel-loader": "^8.0.5",
     "css-loader": "^2.1.0",
     "html-webpack-plugin": "^3.2.0",

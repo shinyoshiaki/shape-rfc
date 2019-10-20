@@ -1,30 +1,23 @@
 import React, { FC, useEffect, useRef, useState } from "react";
-const Worker = require("./test.worker.ts");
+
+import Display from "./components/Display";
+import styled from "styled-components";
+import useInput from "./hooks/useInput";
 
 const App: FC = () => {
-  const workerRef = useRef<Worker>(new Worker());
-  const [msg, setMsg] = useState("");
-
-  useEffect(() => {
-    const worker = workerRef.current;
-
-    worker.onmessage = e => {
-      setMsg(e.data);
-    };
-
-    worker.postMessage("call");
-
-    return () => {
-      worker.terminate();
-    };
-  }, []);
+  const [text, setText] = useInput();
 
   return (
     <div>
-      <p>{msg}</p>
-      <button>button</button>
+      <Text onChange={setText} />
+      <Display text={text} />
     </div>
   );
 };
+
+const Text = styled.textarea`
+  width: 100%;
+  height: 400px;
+`;
 
 export default App;
