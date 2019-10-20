@@ -1,40 +1,42 @@
 export function shaper(text: string) {
-  // rm mokuji
   let now = text;
   const intro = "1.  Introduction";
+  if (!text.split(intro)[2]) return "";
   now = intro + text.split(intro)[2];
 
-  now = now
+  let arr = now
     .split("\n")
-    .filter(s => s.slice(0, 9) !== "Rosenberg" && s.slice(0, 3) !== "RFC")
-    .map(s => (s.slice(0, 2) === "  " ? s.slice(2, s.length) : s))
-    .map(s => (s.slice(0, 1) === " " ? s.slice(1, s.length) : s))
-    .map(s => (s.slice(0, 2) === " \n" ? s.slice(2, s.length) : s))
+    .filter(s => s.slice(0, 9) !== "Rosenberg" && s.slice(0, 3) !== "RFC");
+
+  console.log([...arr]);
+
+  arr = arr.reduce(
+    (acc, cur) => {
+      const last = acc.slice(-1)[0];
+      if (cur === "" && last !== "" && last !== "\n") acc.push("\n");
+      else if (cur !== "") acc.push(cur);
+      return acc;
+    },
+    [] as string[]
+  );
+
+  console.log([...arr]);
+
+  now = arr
     .reduce(
       (acc, cur) => {
         const last = acc.slice(-1)[0];
-        if (cur === "" && last !== "" && last !== "\n") acc.push("\n");
-        else if (cur !== "") acc.push(cur);
+        if (cur.length > 1) acc.push(cur);
+        else if (cur.length === 1 && last.length > 1) acc.push(cur);
         return acc;
       },
       [] as string[]
     )
-    .reduce(
-      (acc, cur) => {
-        const last = acc.slice(-1)[0];
-        if (cur !== "\n" && cur !== "") acc.push(cur);
-        else if (cur === "\n" && last !== "\n") acc.push(cur);
-        return acc;
-      },
-      [] as string[]
-    )
-    .reduce(
-      (acc, cur) => {
-        if (cur !== " ") acc.push(cur);
-        return acc;
-      },
-      [] as string[]
-    )
+    .map(s => (s.slice(0, 3) === "   " ? s.slice(2, s.length) : s))
+
+    .join("")
+    .split("\n")
+    .map(s => (s.slice(0, 1) === " " ? "\n\n" + s.slice(0, s.length) : s))
     .join("");
 
   console.log(now.split("\n"));
