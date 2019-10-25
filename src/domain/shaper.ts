@@ -4,6 +4,7 @@ export function shaper(text: string) {
   if (!text.split(intro)[2]) return "";
   now = intro + text.split(intro)[2];
 
+  // remove page header
   let arr = now.split("\n").reduce(
     (acc, cur) => {
       if (cur.slice(0, 9) === "Rosenberg") {
@@ -21,10 +22,10 @@ export function shaper(text: string) {
     [] as string[]
   );
 
-  arr = arr.map(s => (s.slice(0, 3) === "   " ? s.slice(2, s.length) : s));
+  // remove unnecessary space
+  arr = arr.map(s => s.trim() + (s !== "" ? " " : ""));
 
-  console.log([...arr]);
-
+  // divide sentence block
   arr = arr.reduce(
     (acc, cur) => {
       const last = acc.slice(-1)[0];
@@ -34,15 +35,6 @@ export function shaper(text: string) {
     },
     [] as string[]
   );
-
-  //   console.log([...arr]);
-
-  //   arr = arr.reduce(
-  //     (acc, cur) => {
-  //       return acc;
-  //     },
-  //     [] as string[]
-  //   );
 
   now = arr.join("");
   return now;
